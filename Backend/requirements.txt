@@ -1,0 +1,5 @@
+fastapi
+pymongo
+uvicorn
+opencv-python-headless
+pydantic

@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=ALPR
+    volumes:
+      - mongodb_data:/data/db
+
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/
+      - MONGODB_DB=alpr
+      - CORS_ALLOWED_ORIGINS=http://localhost:3000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+
+volumes:
+  mongodb_data:
+    driver: local

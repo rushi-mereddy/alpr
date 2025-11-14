@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Camera</title>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-MhG/WSfz7oBcGlZgAJQmqizluh+klPgMDrS++5+8UsAcaY+UpHJ8O+eQKdGN8eQE" crossorigin="anonymous">
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 20px; /* Add padding for spacing */
+    }
+
+    #addCameraButton {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px; /* Add margin-bottom for spacing */
+    }
+
+    #addCameraButton:hover {
+        background-color: #0056b3;
+    }
+
+    #addCameraButton i {
+        margin-right: 5px;
+    }
+
+    #popupButtonContainer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .popupButton {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .popupButton:hover {
+        background-color: #f0f0f0;
+    }
+
+    .popupButton.primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .popupButton.secondary {
+        background-color: #ccc;
+        color: #000;
+    }
+
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+    }
+
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px; /* Add margin-bottom for spacing */
+        max-width: 300px;
+        position: relative; /* Add position relative for the delete button */
+    }
+
+    .card:hover {
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .deleteButton {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        color: #ff0000;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<button id="addCameraButton" onclick="showPopup()"><i class="fas fa-camera"></i> Add Camera</button>
+
+<div class="popup" id="popup">
+    <h2>Add Camera</h2>
+    <form id="cameraForm">
+        <label for="cameraId">Camera ID:</label>
+        <input type="text" id="cameraId" name="cameraId" required><br><br>
+        <label for="ftspUrl">FTSP URL:</label>
+        <input type="text" id="ftspUrl" name="ftspUrl" required><br><br>
+        <div id="popupButtonContainer">
+            <button type="submit" class="popupButton primary">Add</button>
+            <button type="button" class="popupButton secondary" onclick="closePopup()">Close</button>
+        </div>
+    </form>
+</div>
+
+<div id="cameraList">
+    <!-- Camera cards will be displayed here -->
+</div>
+
+<script>
+    function showPopup() {
+        document.getElementById("popup").style.display = "block";
+    }
+
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+
+    document.getElementById("cameraForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        let cameraId = document.getElementById("cameraId").value;
+        let ftspUrl = document.getElementById("ftspUrl").value;
+        addCameraCard(cameraId, ftspUrl);
+        closePopup();
+    });
+
+    function addCameraCard(cameraId, ftspUrl) {
+        let card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = `
+            <h3>Camera ID: ${cameraId}</h3>
+            <p>FTSP URL: ${ftspUrl}</p>
+            <i class="fas fa-trash deleteButton" onclick="deleteCard(this.parentElement)"></i>
+        `;
+        document.getElementById("cameraList").appendChild(card);
+    }
+
+    function deleteCard(card) {
+        card.remove();
+    }
+</script>
+</body>
+</html>

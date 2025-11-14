@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Camera</title>
+<style>
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+    }
+</style>
+</head>
+<body>
+<div class="popup" id="popup">
+    <h2>Add Camera</h2>
+    <form id="cameraForm">
+        <label for="cameraId">Camera ID:</label>
+        <input type="text" id="cameraId" name="cameraId" required><br><br>
+        <label for="ftspUrl">FTSP URL:</label>
+        <input type="text" id="ftspUrl" name="ftspUrl" required><br><br>
+        <button type="submit">Add</button>
+    </form>
+    <button onclick="closePopup()">Close</button>
+</div>
+
+<div id="cameraList">
+    <!-- Camera cards will be displayed here -->
+</div>
+
+<button onclick="showPopup()">Add Camera</button>
+
+<script>
+    function showPopup() {
+        document.getElementById("popup").style.display = "block";
+    }
+
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+
+    document.getElementById("cameraForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        let cameraId = document.getElementById("cameraId").value;
+        let ftspUrl = document.getElementById("ftspUrl").value;
+        addCameraCard(cameraId, ftspUrl);
+        closePopup();
+    });
+
+    function addCameraCard(cameraId, ftspUrl) {
+        let card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = `
+            <h3>Camera ID: ${cameraId}</h3>
+            <p>FTSP URL: ${ftspUrl}</p>
+        `;
+        document.getElementById("cameraList").appendChild(card);
+    }
+</script>
+</body>
+</html>
